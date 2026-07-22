@@ -1,0 +1,122 @@
+# NapCat OneBot WebSocket 连接地址。
+ws_url: ws://127.0.0.1:3001
+# NapCat OneBot WebSocket 鉴权令牌；未启用鉴权时留空。
+ws_token: NapCat
+# 机器人的 QQ 号。
+bot_qq: 0
+# 事件处理并发线程数，必须大于 0。
+thread_count: 3
+# 启用的插件内部名；留空或填写 * 启用全部，填写 none 关闭全部。
+enabled_plugins: []
+# 未绑定游戏账号时仍允许使用的公开命令。
+public_commands: ["#注册", "#绑定"]
+
+# 游戏业务数据库地址，当前要求使用 sqlite://。
+arcaea_database_url: sqlite:///home/ncp/Projects/ArcaeaBot/testserver/arcaea_database.db
+# 游戏日志数据库地址，当前要求使用 sqlite://。
+arcaea_log_database_url: sqlite:///home/ncp/Projects/ArcaeaBot/testserver/arcaea_log.db
+
+# 持久化数据与静态资源根目录。
+data_path: ./data
+# 图片、字体和 YAML 等静态资源根目录。
+resources_path: ./data
+# 图片生成、解包等临时文件目录。
+tmp_path: ./tmp
+# 游戏资源 Bundle 所在目录。
+bundle_path: /home/ncp/Projects/ArcaeaBot/testserver/database/bundle
+# 需要从 Bundle 解包的资源文件夹列表。
+debundler_folders: [char, songs]
+
+# 机器人对外显示名称。
+bot_name: ArcaeaBot
+# 帮助菜单和图片中显示的游戏名称。
+game_name: Arcaea
+# 插件中显示的游戏货币名称。
+ticket_name: 记忆源点
+# 插件中显示的兑换物品名称。
+frag_name: 残片
+# 允许机器人处理消息及验证身份的群号白名单。
+group_whitelist: []
+
+# 游戏账号改名消耗的货币数量。
+arcaea_rename_cost: 100
+# 新注册游戏账号获得的初始货币数量。
+arcaea_default_ticket: 0
+# 签到冷却时间，单位为小时。
+check_in_expire_hours: 24
+# 签到奖励候选列表。
+check_in_rewards:
+  - item_id: memory
+    type: memory
+    name: 记忆源点
+    amount: 100
+  - item_id: fragment
+    type: fragment
+    name: 残片
+    amount: 200
+# 兑换物品礼物记录的有效天数。
+fragment_present_expire_days: 7
+# 参与货币争夺所需的最低记忆源点数量。
+snatch_enable_ticket: 100
+# 随机对称图片的触发概率，范围为 0～1，默认 0.5；0 表示关闭，1 表示每次触发。
+sticker_mirror_probability: 0.5
+
+# 反馈报告允许选择的分类。
+report_types: [定数, 谱面, 其他]
+# 世界哈希值排行榜最大查询数量。
+hash_rank_limit: 200
+# 潜力值排行榜最大查询数量。
+ptt_rank_limit: 1000
+# 全服玩家排行榜最大查询数量。
+global_player_rank_limit: 10000
+# 帮助菜单中显示的注意事项列表。
+help_tips:
+  - "本服理论PTT为：{theory}"
+  - "※图片生成指令会耗费服务器一定性能，在使用图片生成命令时请耐心等待哦！"
+  - "提示：指令均以#开头，带[参数]实际不用输括号。私聊无回复则需添加好友！"
+  - "抢劫规则说明"
+  - "- 最低参与门槛：100+"
+  - "- 奖励由我资金池支出，资金池保留100下限，不会被抢到负数"
+  - "- 历史净亏损玩家获得补偿加成，公式min(35%，|净亏损|×0.01%)"
+  - "- 超大奖(2%)：获得100%~150%奖励"
+  - "- 中奖(8%)：获得50%~80%奖励"
+  - "- 小奖(25%)：获得10%~35%奖励"
+  - "- 平衡事件(10%)：在-5%~+5%浮动"
+  - "- 小输(30%)：损失15%~35%奖励"
+  - "- 大输(25%)：损失35%~60%奖励"
+  - "用户退群或被踢出时，则会直接封禁绑定过的游戏账号。"
+  - "图片处理机制：消息中包含图片时会随机进行左右镜像"
+  - "聊天 AI：以 Bot 名称开头即可触发；使用 #重置聊天 可以清空个人聊天记录。"
+# 塔罗牌及其效果配置列表。
+tarot_cards:
+  - name: 倒吊人
+    effect: mute
+    duration: 60
+  - name: 女祭司
+    effect: none
+  - name: 命运之轮
+    effect: sanity_random
+  - name: 高塔
+    effect: none
+  - name: 死亡
+    effect: mute
+    duration: 60
+  - name: 太阳
+    effect: sanity_full
+  - name: 月亮
+    effect: sanity_zero
+  - name: 恶魔
+    effect: none
+  - name: 隐士
+    effect: none
+  - name: 愚者
+    effect: none
+
+# 聊天人工智能使用的模型标识。
+llm_id: "deepseek-v4-flash"
+# 聊天人工智能接口地址。
+llm_url: "https://api.deepseek.com/v1/chat/completions"
+# 聊天人工智能接口鉴权密钥。
+llm_api_key: "Bearer sk-token"
+# 每名用户保留的最大聊天上下文条数。
+max_chat_count: 20

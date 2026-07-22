@@ -1,0 +1,52 @@
+# macOS / editor
+.DS_Store
+.AppleDouble
+.LSOverride
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local configuration
+config.yaml
+.env
+.env.*
+
+# Go build outputs
+/arcaeabot
+*.exe
+*.dll
+*.so
+*.dylib
+*.out
+bin/
+build/
+dist/
+
+# Go module / vendor
+go.work
+go.work.sum
+vendor/
+
+# Local caches
+.cache/
+.gocache/
+
+# Runtime data
+testserver/
+tmp/
+data/arcaeabot.db
+data/arcaeabot.db-*
+data/arcaea.db
+data/arcaea.db-*
+/arcaea_database.db
+/arcaea_database.db-*
+/arcaea_log.db
+/arcaea_log.db-*
+*.log
+
+# Legacy Python artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
