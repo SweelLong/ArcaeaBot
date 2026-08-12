@@ -2,7 +2,7 @@
 
 这是基于 NapCatQQ 框架开发的面向 [Arcaea-server](https://github.com/Lost-MSth/Arcaea-server) 部署的 Go 版 ArcaeaBot。
 
-数据库访问统一使用 `sqlite://` URL。
+数据库访问统一使用 `sqlite://` URL(Windows 不要用反斜杠 `\` 推荐使用相对路径定位如`../`)，理论上支持 [Arcaea_server_rs](https://github.com/YinMo19/Arcaea_server_rs) 版本服务端。
 
 ## 运行要求
 
@@ -19,7 +19,7 @@
 cp config.yaml.example config.yaml
 ```
 
-`config.yaml` 包含 Token、数据库密码和本机路径，已被 Git 忽略，不要提交。程序只读取 YAML 配置，不再读取 `.env`。
+`config.yaml` 包含 Token、数据库密码和本机路径，已被 Git 忽略，不要提交。程序只读取 YAML 配置。
 
 主要配置项如下，完整默认值见模板：
 
@@ -83,10 +83,10 @@ go build -o arcaeabot . && ./arcaeabot
 ### 交叉编译
 
 ```sh
-# Linux amd64（最常用）
+# Linux amd64（最常用的 x86_64 实例）
 GOOS=linux GOARCH=amd64 go build -o arcaeabot-linux-amd64 .
 
-# Linux arm64（如树莓派、阿里云 ARM 实例）
+# Linux arm64（如树莓派等 ARM 架构实例）
 GOOS=linux GOARCH=arm64 go build -o arcaeabot-linux-arm64 .
 ```
 
@@ -94,6 +94,7 @@ GOOS=linux GOARCH=arm64 go build -o arcaeabot-linux-arm64 .
 
 ```sh
 # 上传二进制、配置和静态资源
+mkdir -p /opt/arcaeabot
 scp arcaeabot-linux-amd64 config.yaml root@<服务器>:/opt/arcaeabot/
 rsync -av --exclude 'arcaeabot.db*' data/ root@<服务器>:/opt/arcaeabot/data/
 ```
@@ -176,11 +177,11 @@ _, err = db.Delete(ctx, []string{"plugin_name", "user", "123"})
 用户 QQ 与游戏 `user_id` 的绑定关系也保存在 KV 中：
 
 ```text
-binding / qq / <QQ>      -> <user_id>
+binding / qq / <QQ> -> <user_id>
 binding / user / <user_id> -> <QQ>
 ```
 
-游戏业务库由 `arcaea_database_url` 指定；其中的用户、分数、礼物盒等数据仍使用原框架表结构。Bot KV 数据库与 Arcaea 业务数据库相互独立。
+游戏业务库由 `arcaea_database_url` 指定。Bot KV 数据库与 Arcaea 业务数据库相互独立。
 
 ## 注册、绑定与权限
 
@@ -205,7 +206,7 @@ binding / user / <user_id> -> <QQ>
 
 ## 插件
 
-所有插件均位于 `internal/plugins`，同一业务域的插件会合并在同一个源码文件中。可以在 `config.yaml` 中只启用需要的插件，例如：
+插件总控与可复用工具位于 `internal/utils`，具体插件均位于 `internal/plugins`，插件通过各自文件中的 `init()` 自动登记，新增插件无需修改中央加载清单。同一业务域的插件会合并在同一个源码文件中。可以在 `config.yaml` 中只启用需要的插件，例如：
 
 ```yaml
 enabled_plugins: [help, acct, b30, stats, notice]
@@ -232,11 +233,13 @@ rand, guess, tarot, admin, files, board, fun
 - Ai 酱推荐
 - 钙哥图片
 - 猜歌、塔罗、随机问答、留言板、群管理、群文件和趣味图片
+- 聊天 AI、戳一戳、进退群通知、表情处理和 Arcaea C 版最新直链查询。
 
-聊天 AI、戳一戳、进退群通知、表情处理和 Arcaea C 版版本查询也按普通插件管理。
+## TODO
 
-插件总控与可复用工具位于 `internal/utils`，具体插件位于 `internal/plugins`。插件通过各自文件中的 `init()` 自动登记，新增插件无需修改中央加载清单。旧版完整插件名仍可作为 `enabled_plugins` 兼容别名使用。
+- [ ] 当 NapCat 断连的时候，应该静候等待，间隔性地主动尝试重新连接，而不是直接关闭进程。
+- [ ] 微调图片生成相关插件的排版。
 
 ## License
 
-本项目采用 [MIT License](LICENSE)。使用、修改或分发本项目代码时，必须在所有副本或代码的实质性部分中保留原版权声明和完整许可证文本。
+[MIT License](LICENSE)
